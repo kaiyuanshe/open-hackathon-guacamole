@@ -6,5 +6,5 @@ import org.slf4j.LoggerFactory;
 
 interface RemoteConnectionRetriever
 {
-    public JSONObject GetRemoteConnections(String token);
+    public JSONObject getRemoteConnections(String token);
 }
