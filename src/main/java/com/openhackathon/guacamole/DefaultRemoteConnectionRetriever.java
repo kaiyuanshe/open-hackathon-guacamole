@@ -8,21 +8,22 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import com.openhackathon.guacamole.UrlWrapper;
 
 class DefaultRemoteConnectionRetriever implements RemoteConnectionRetriever
 {
     private Logger logger = LoggerFactory.getLogger(DefaultRemoteConnectionRetriever.class.getClass());
-    private String remoteConnApiUrl = null;
+    private UrlWrapper remoteConnApiUrl = null;
     private String appId = null;
 
-    public DefaultRemoteConnectionRetriever(final String remoteConnApiUrl, final String appId) {
+    public DefaultRemoteConnectionRetriever(final UrlWrapper remoteConnApiUrl, final String appId) {
         this.remoteConnApiUrl = remoteConnApiUrl;
         this.appId = appId;
     }
 
     public JSONObject getRemoteConnections(String token)
     {
-        logger.debug("get remote connections from openhackathon. remoteConnApiUrl:" + this.remoteConnApiUrl + 
+        logger.debug("get remote connections from openhackathon. remoteConnApiUrl:" + this.remoteConnApiUrl.getUrl().toString() + 
              ", token:" + token);
         String resp = getGuacamoleJSONString(token);
         if(resp == null)
@@ -44,12 +45,10 @@ class DefaultRemoteConnectionRetriever implements RemoteConnectionRetriever
         HttpURLConnection conn = null;
         BufferedReader in = null;
         try {
-
-            final URL url = new URL(this.remoteConnApiUrl);
-            logger.debug("getGuacamoleJSONString from " + url.toString());
+            logger.debug("getGuacamoleJSONString from:" + this.remoteConnApiUrl.getUrl().toString());
 
             HttpURLConnection.setFollowRedirects(false);
-            conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) this.remoteConnApiUrl.openConnection();
             conn.setRequestMethod("GET");
             conn.setUseCaches(false);
             conn.setRequestProperty("Authorization", "token " + token);
