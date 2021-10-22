@@ -28,4 +28,12 @@ public class UrlWrapperTests {
 
         assertTrue(u.openConnection() instanceof HttpURLConnection);
     }
+
+    @Test
+    public void getUrl() throws Exception {
+        String url = "https://test.com";
+
+        UrlWrapper u = new UrlWrapper(url);
+        assertEquals(url, u.getUrl());
+    }
 }
