@@ -1,6 +1,8 @@
 openhackathon-guacamole-auth-provider
 ==================================
 
+[![Java CI - Build and Publish](https://github.com/kaiyuanshe/open-hackathon-guacamole/actions/workflows/publish.yml/badge.svg)](https://github.com/kaiyuanshe/open-hackathon-guacamole/actions/workflows/publish.yml)
+
 ## What's openhackathon-guacamole-auth-provider?
 Following [custom authentication guide](http://guac-dev.org/doc/gug/custom-authentication.html), we have our implementation here. The major authentication flow for open hackathon is(Assume user logined in, registered on certain hackathon and successfully launched his/her experiment environment):
 
@@ -16,16 +18,16 @@ This project is java based so make sure you have installed `java` and `maven` pr
 java -version
 mvn -version
 ```
-We build with `JDK 7`(minor version doesn't matter) and `maven 3`
+We build with `JDK 8`(minor version doesn't matter) and `maven 3`
 
 Simply build this project by:
 ```
-git clone https://github.com/kaiyuanshe/open-hackathon.git
-cd openhackathon-guacamole-auth-provider
+git clone https://github.com/kaiyuanshe/open-hackathon-guacamole.git
+cd open-hackathon-guacamole
 mvn verify
 ```
 
-After project build successfully you will find the `openhackathon-gucamole-authentication-1.0-SNAPSHOT.jar` in the `target` folder, this jar file will provide the authentication service.
+After project build successfully you will find the `openhackathon-gucamole-authentication-2.0.1.jar` in the `target` folder, this jar file will provide the authentication service.
 
 **_important_**
 

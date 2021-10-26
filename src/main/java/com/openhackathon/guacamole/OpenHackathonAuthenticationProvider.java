@@ -22,7 +22,7 @@ import java.util.*;
 public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationProvider {
 
     private final Logger logger = LoggerFactory.getLogger(OpenHackathonAuthenticationProvider.class.getClass());
-    private Connect2OpenHackathon conn;
+    private RemoteConnectionRetriever conn;
 
     private static final StringGuacamoleProperty AUTH_REQUEST_URL = new StringGuacamoleProperty() {
         @Override
