@@ -22,7 +22,7 @@ import java.util.*;
 public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationProvider {
 
     private final Logger logger = LoggerFactory.getLogger(OpenHackathonAuthenticationProvider.class.getClass());
-    private RemoteConnectionRetriever conn;
+    private RemoteConnectionRetriever retriever;
 
     private static final StringGuacamoleProperty AUTH_REQUEST_URL = new StringGuacamoleProperty() {
         @Override
@@ -70,7 +70,8 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
         }
 
 
-        final String jsonString = this.conn.getGuacamoleJSONString(connectionName, tokenString);
+        //final String jsonString = this.retriever.getRemoteConnections(connectionName, tokenString);
+        String jsonString = null;
         logger.info("get guacamole config json String :" + jsonString);
         if (jsonString == null) {
             logger.info("get null jsonString from openHackathon platform");
@@ -82,11 +83,11 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
     }
 
     private synchronized void initConnection() {
-        if (conn != null)
+        if (retriever != null)
             return;
         try {
             final String authRequestURL = getAuthRequestUrl();
-            this.conn = new Connect2OpenHackathon(authRequestURL);
+            // this.retriever = new Connect2OpenHackathon(authRequestURL);
         } catch (GuacamoleException e) {
             logger.error("fail to get AUTH_REQUEST_URL from config file", e);
         }
