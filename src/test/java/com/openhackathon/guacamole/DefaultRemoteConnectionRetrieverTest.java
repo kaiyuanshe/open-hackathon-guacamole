@@ -28,8 +28,8 @@ public class DefaultRemoteConnectionRetrieverTest {
         PowerMockito.when(u.openConnection()).thenReturn(huc);
         PowerMockito.when(huc.getResponseCode()).thenReturn(400);
 
-        DefaultRemoteConnectionRetriever retriever = new DefaultRemoteConnectionRetriever(u, appId);
-        JSONObject json = retriever.getRemoteConnections(testToken);
+        DefaultRemoteConnectionRetriever retriever = new DefaultRemoteConnectionRetriever(appId);
+        JSONObject json = retriever.getRemoteConnections(u, testToken);
         assertNull(json);
 
         verify(u, times(1)).openConnection();
@@ -57,8 +57,8 @@ public class DefaultRemoteConnectionRetrieverTest {
         PowerMockito.when(huc.getResponseCode()).thenReturn(200);
         PowerMockito.when(huc.getInputStream()).thenReturn(stream);
 
-        DefaultRemoteConnectionRetriever retriever = new DefaultRemoteConnectionRetriever(u, appId);
-        JSONObject json = retriever.getRemoteConnections(testToken);
+        DefaultRemoteConnectionRetriever retriever = new DefaultRemoteConnectionRetriever(appId);
+        JSONObject json = retriever.getRemoteConnections(u, testToken);
         assertNotNull(json);
         assertEquals(1, json.getJSONArray("value").length());
         JSONObject conn = json.getJSONArray("value").getJSONObject(0);

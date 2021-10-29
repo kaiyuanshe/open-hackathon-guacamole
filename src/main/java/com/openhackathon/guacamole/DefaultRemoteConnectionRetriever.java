@@ -13,18 +13,16 @@ import com.openhackathon.guacamole.UrlWrapper;
 class DefaultRemoteConnectionRetriever implements RemoteConnectionRetriever
 {
     private Logger logger = LoggerFactory.getLogger(DefaultRemoteConnectionRetriever.class.getClass());
-    private UrlWrapper remoteConnApiUrl = null;
     private String appId = null;
 
-    public DefaultRemoteConnectionRetriever(final UrlWrapper remoteConnApiUrl, final String appId) {
-        this.remoteConnApiUrl = remoteConnApiUrl;
+    public DefaultRemoteConnectionRetriever(final String appId) {
         this.appId = appId;
     }
 
-    public JSONObject getRemoteConnections(String token)
+    public JSONObject getRemoteConnections(UrlWrapper url, String token)
     {
-        logger.debug("get remote connections from openhackathon. remoteConnApiUrl:" + this.remoteConnApiUrl.getUrl() + ", token:" + token);
-        String resp = getGuacamoleJSONString(token);
+        logger.debug("get remote connections from openhackathon. remoteConnApiUrl:" + url.getUrl() + ", token:" + token);
+        String resp = getGuacamoleJSONString(url, token);
         if(resp == null)
         {
             return null;
@@ -39,15 +37,15 @@ class DefaultRemoteConnectionRetriever implements RemoteConnectionRetriever
         return json;
     }
 
-    public String getGuacamoleJSONString(final String token) {
+    public String getGuacamoleJSONString(UrlWrapper url, String token) {
 
         HttpURLConnection conn = null;
         BufferedReader in = null;
         try {
-            logger.debug("getGuacamoleJSONString from:" + this.remoteConnApiUrl.getUrl());
+            logger.debug("getGuacamoleJSONString from:" + url.getUrl());
 
             HttpURLConnection.setFollowRedirects(false);
-            conn = (HttpURLConnection) this.remoteConnApiUrl.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setUseCaches(false);
             conn.setRequestProperty("Authorization", "token " + token);
