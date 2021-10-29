@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-
+import java.net.MalformedURLException;
 
 public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationProvider {
 
@@ -44,17 +44,16 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
 
         Map<String, GuacamoleConfiguration> configs = new HashMap<String, GuacamoleConfiguration>();
 
-        final GuacamoleConfiguration config = getGuacamoleConfiguration(credentials.getRequest());
-        if (config == null) {
+        final JSONObject json = getRemoteConnections(credentials.getRequest());
+        if (json == null) {
             return configs;
         }
 
-        configs.put(config.getParameter("name"), config);
+        //configs.put(config.getParameter("name"), config);
         return configs;
     }
 
     private JSONObject getRemoteConnections(final HttpServletRequest request) throws GuacamoleException {
-
         final String hackathon = request.getParameter(OpenHackathonConstants.QueryStringKeyHackathon);
         final String experiment = request.getParameter(OpenHackathonConstants.QueryStringKeyExperiment);
         final String token = request.getParameter(OpenHackathonConstants.QueryStringKeyToken);
@@ -64,39 +63,13 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
             return null;
         }
 
-        //final String jsonString = this.retriever.getRemoteConnections(connectionName, tokenString);
-        String jsonString = null;
-        logger.info("get guacamole config json String :" + jsonString);
-        if (jsonString == null) {
-            logger.info("get null jsonString from openHackathon platform");
+        try {
+            UrlWrapper url = UrlHelper.getRequestUrl(hackathon, experiment);
+            return this.retriever.getRemoteConnections(url, token);
+        } catch (MalformedURLException e){
+            logger.error("fail to build open hackathon url", e);
             return null;
         }
-
-        // String finalString = jsonString.substring(1, jsonString.length()-1).replace("\\", "");
-        return null;
-    }
-
-    private GuacamoleConfiguration getGuacamoleConfiguration(final HttpServletRequest request) throws GuacamoleException {
-
-        final String hackathon = request.getParameter(OpenHackathonConstants.QueryStringKeyHackathon);
-        final String experiment = request.getParameter(OpenHackathonConstants.QueryStringKeyExperiment);
-        final String token = request.getParameter(OpenHackathonConstants.QueryStringKeyToken);
-        logger.info("Reading guacamole configurations for hackathon: " + hackathon + ", experiment:" + experiment + ", token: " + token);
-
-        if (hackathon == null || experiment == null || token==null) {
-            return null;
-        }
-
-        //final String jsonString = this.retriever.getRemoteConnections(connectionName, tokenString);
-        String jsonString = null;
-        logger.info("get guacamole config json String :" + jsonString);
-        if (jsonString == null) {
-            logger.info("get null jsonString from openHackathon platform");
-            return null;
-        }
-
-        // String finalString = jsonString.substring(1, jsonString.length()-1).replace("\\", "");
-        return getConfiguration(jsonString);
     }
 
     private synchronized void initializeRetriever() {
