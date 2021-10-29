@@ -23,8 +23,10 @@ class DefaultRemoteConnectionRetriever implements RemoteConnectionRetriever
     {
         logger.debug("get remote connections from openhackathon. remoteConnApiUrl:" + url.getUrl() + ", token:" + token);
         String resp = getGuacamoleJSONString(url, token);
+        logger.info("response from open hackathon api:" + resp);
         if(resp == null)
         {
+            logger.info("get null jsonString from openHackathon platform");
             return null;
         }
 
