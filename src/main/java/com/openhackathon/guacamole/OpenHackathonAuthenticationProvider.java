@@ -24,16 +24,14 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
     private final Logger logger = LoggerFactory.getLogger(OpenHackathonAuthenticationProvider.class.getClass());
     private RemoteConnectionRetriever retriever;
 
-    private static final StringGuacamoleProperty AUTH_REQUEST_URL = new StringGuacamoleProperty() {
-        @Override
-        public String getName() {
-            return "auth-request-url";
-        }
-    };
-
     private static final String getAuthRequestUrl() throws GuacamoleException {
         Environment environment = new LocalEnvironment();
-        return environment.getProperty(AUTH_REQUEST_URL);
+        return environment.getProperty(GuacamoleProperties.OPEN_HACKATHON_ENDPOINT);
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "openhackathon";
     }
 
     public OpenHackathonAuthenticationProvider() {
@@ -92,12 +90,6 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
             logger.error("fail to get AUTH_REQUEST_URL from config file", e);
         }
     }
-
-    @Override
-    public String getIdentifier() {
-        return "openhackathon";
-    }
-
 
     private GuacamoleConfiguration getConfiguration(final String jsonString) {
         try {
