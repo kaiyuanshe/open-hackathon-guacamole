@@ -24,9 +24,9 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
     private final Logger logger = LoggerFactory.getLogger(OpenHackathonAuthenticationProvider.class.getClass());
     private RemoteConnectionRetriever retriever;
 
-    private static final String getAuthRequestUrl() throws GuacamoleException {
+    private static final String getOpenHackathonAppId() throws GuacamoleException {
         Environment environment = new LocalEnvironment();
-        return environment.getProperty(GuacamoleProperties.OPEN_HACKATHON_ENDPOINT);
+        return environment.getProperty(GuacamoleProperties.OPEN_HACKATHON_APP_ID);
     }
 
     @Override
@@ -35,14 +35,12 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
     }
 
     public OpenHackathonAuthenticationProvider() {
-        initConnection();
         logger.info("initialize OpenHackathonAuthenticationProvider");
     }
 
     @Override
     public Map<String, GuacamoleConfiguration> getAuthorizedConfigurations(final Credentials credentials) throws GuacamoleException {
-
-        initConnection();
+        initializeRetriever();
 
         Map<String, GuacamoleConfiguration> configs = new HashMap<String, GuacamoleConfiguration>();
 
@@ -51,22 +49,43 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
             return configs;
         }
 
-
         configs.put(config.getParameter("name"), config);
         return configs;
     }
 
+    private JSONObject getRemoteConnections(final HttpServletRequest request) throws GuacamoleException {
 
-    private GuacamoleConfiguration getGuacamoleConfiguration(final HttpServletRequest request) throws GuacamoleException {
+        final String hackathon = request.getParameter(OpenHackathonConstants.QueryStringKeyHackathon);
+        final String experiment = request.getParameter(OpenHackathonConstants.QueryStringKeyExperiment);
+        final String token = request.getParameter(OpenHackathonConstants.QueryStringKeyToken);
+        logger.info("Reading guacamole configurations for hackathon: " + hackathon + ", experiment:" + experiment + ", token: " + token);
 
-        final String tokenString = request.getParameter("oh");
-        final String connectionName = request.getParameter("name");
-        logger.info("open hackathon tokenString is : " + tokenString + ", connectionName is:" + connectionName);
-
-        if (tokenString == null || connectionName == null) {
+        if (hackathon == null || experiment == null || token==null) {
             return null;
         }
 
+        //final String jsonString = this.retriever.getRemoteConnections(connectionName, tokenString);
+        String jsonString = null;
+        logger.info("get guacamole config json String :" + jsonString);
+        if (jsonString == null) {
+            logger.info("get null jsonString from openHackathon platform");
+            return null;
+        }
+
+        // String finalString = jsonString.substring(1, jsonString.length()-1).replace("\\", "");
+        return null;
+    }
+
+    private GuacamoleConfiguration getGuacamoleConfiguration(final HttpServletRequest request) throws GuacamoleException {
+
+        final String hackathon = request.getParameter(OpenHackathonConstants.QueryStringKeyHackathon);
+        final String experiment = request.getParameter(OpenHackathonConstants.QueryStringKeyExperiment);
+        final String token = request.getParameter(OpenHackathonConstants.QueryStringKeyToken);
+        logger.info("Reading guacamole configurations for hackathon: " + hackathon + ", experiment:" + experiment + ", token: " + token);
+
+        if (hackathon == null || experiment == null || token==null) {
+            return null;
+        }
 
         //final String jsonString = this.retriever.getRemoteConnections(connectionName, tokenString);
         String jsonString = null;
@@ -80,14 +99,14 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
         return getConfiguration(jsonString);
     }
 
-    private synchronized void initConnection() {
-        if (retriever != null)
+    private synchronized void initializeRetriever() {
+        if (this.retriever != null)
             return;
         try {
-            final String authRequestURL = getAuthRequestUrl();
-            // this.retriever = new Connect2OpenHackathon(authRequestURL);
+            final String appId = getOpenHackathonAppId();
+            this.retriever = new DefaultRemoteConnectionRetriever(appId);
         } catch (GuacamoleException e) {
-            logger.error("fail to get AUTH_REQUEST_URL from config file", e);
+            logger.error("fail to get open-hackathon-app-id from guacamole.properties", e);
         }
     }
 
