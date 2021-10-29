@@ -13,7 +13,7 @@ import java.io.*;
 
 @RunWith(PowerMockRunner.class)  
 @PrepareForTest({URL.class, HttpURLConnection.class, DefaultRemoteConnectionRetriever.class})  
-public class DefaultRemoteConnectionRetrieverTest {
+public class DefaultRemoteConnectionRetrieverTests {
     @Test
     public void getRemoteConnections_null() throws Exception {
         String url = "https://someurl.com";

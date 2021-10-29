@@ -1,6 +1,9 @@
 package com.openhackathon.guacamole;
 
 public class OpenHackathonConstants{
+    // default vaule
+    public static final String OpenHackathonDefaultEndpoint = "https://hackathon-api.kaiyuanshe.cn";
+
     // config names in guacamole.properties
     public static final String OpenHackathonApiEndpointConfigName = "open-hackathon-hostname";
     public static final String OpenHackathonAppIdConfigName = "open-hackathon-app-id";
