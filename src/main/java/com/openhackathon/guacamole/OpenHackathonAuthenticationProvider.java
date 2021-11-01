@@ -23,6 +23,7 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
 
     private final Logger logger = LoggerFactory.getLogger(OpenHackathonAuthenticationProvider.class.getClass());
     private RemoteConnectionRetriever retriever;
+    private RemoteConnectionParser parser;
 
     private static final String getOpenHackathonAppId() throws GuacamoleException {
         Environment environment = new LocalEnvironment();
@@ -35,6 +36,7 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
     }
 
     public OpenHackathonAuthenticationProvider() {
+        this.parser = new DefaultRemoteConnectionParser();
         logger.info("initialize OpenHackathonAuthenticationProvider");
     }
 
@@ -42,15 +44,12 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
     public Map<String, GuacamoleConfiguration> getAuthorizedConfigurations(final Credentials credentials) throws GuacamoleException {
         initializeRetriever();
 
-        Map<String, GuacamoleConfiguration> configs = new HashMap<String, GuacamoleConfiguration>();
-
         final JSONObject json = getRemoteConnections(credentials.getRequest());
         if (json == null) {
-            return configs;
+            return new HashMap<String, GuacamoleConfiguration>();
         }
 
-        //configs.put(config.getParameter("name"), config);
-        return configs;
+        return parser.parseGuacamoleConfiguration(json);
     }
 
     private JSONObject getRemoteConnections(final HttpServletRequest request) throws GuacamoleException {
@@ -80,36 +79,6 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
             this.retriever = new DefaultRemoteConnectionRetriever(appId);
         } catch (GuacamoleException e) {
             logger.error("fail to get open-hackathon-app-id from guacamole.properties", e);
-        }
-    }
-
-    private GuacamoleConfiguration getConfiguration(final String jsonString) {
-        try {
-
-            final JSONObject json = new JSONObject(jsonString);
-            if (json.has("error")) {
-                logger.info("error returned from open hackathon platform");
-                return null;
-            }
-
-            final GuacamoleConfiguration configuration = new GuacamoleConfiguration();
-            final Iterator<String> keys = json.keys();
-            while (keys.hasNext()) {
-                final String key = keys.next();
-                if (key.equals("displayname")) {
-                    continue;
-                }
-                if (key.equals("protocol")) {
-                    configuration.setProtocol(json.getString("protocol"));
-                } else {
-                    configuration.setParameter(key, json.getString(key));
-                }
-            }
-            return configuration;
-
-        } catch (Exception e) {
-            logger.error("Failed to load GuacamoleConfiguation from json " + jsonString, e);
-            return null;
         }
     }
 }

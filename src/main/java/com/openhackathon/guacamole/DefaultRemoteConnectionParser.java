@@ -36,7 +36,11 @@ public class DefaultRemoteConnectionParser implements RemoteConnectionParser
                 final String key = keys.next();
                 if (key.equals("protocol")) {
                     configuration.setProtocol(connection.getString("protocol"));
-                } else {
+                } else if (key.equals("port")) {
+                    Integer port = connection.getInt(key);
+                    configuration.setParameter(key, port.toString());
+                }
+                else {
                     configuration.setParameter(key, connection.getString(key));
                 }
             }
