@@ -6,14 +6,11 @@
 ### Dockerfile for guacamole
 ### based on guacamole official image
 
-FROM guacamole/guacamole:0.9.14
+FROM guacamole/guacamole
 
 USER root
 
-ENV GUACAMOLE_HOME /etc/guacamole
+RUN mkdir -p /opt/openhackathon/guacamole
+ADD . /opt/openhackathon/guacamole/
 
-RUN mkdir -p /usr/local/tomcat/.guacamole
-RUN mkdir -p /etc/guacamole/extensions
-ADD ./deploy/guacamole/ *.jar /etc/guacamole/extensions/
-RUN ln -s /etc/guacamole/guacamole.properties /usr/local/tomcat/.guacamole/guacamole.properties
-
+ENV GUACAMOLE_HOME /opt/openhackathon/guacamole

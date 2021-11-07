@@ -21,7 +21,7 @@ class DefaultRemoteConnectionRetriever implements RemoteConnectionRetriever
 
     public JSONObject getRemoteConnections(UrlWrapper url, String token)
     {
-        logger.debug("get remote connections from openhackathon. remoteConnApiUrl:" + url.getUrl() + ", token:" + token);
+        logger.info("get remote connections from openhackathon. remoteConnApiUrl:" + url.getUrl() + ", token:" + token);
         String resp = getGuacamoleJSONString(url, token);
         logger.info("response from open hackathon api:" + resp);
         if(resp == null)
@@ -44,7 +44,7 @@ class DefaultRemoteConnectionRetriever implements RemoteConnectionRetriever
         HttpURLConnection conn = null;
         BufferedReader in = null;
         try {
-            logger.debug("getGuacamoleJSONString from:" + url.getUrl());
+            logger.info("getGuacamoleJSONString from:" + url.getUrl());
 
             HttpURLConnection.setFollowRedirects(false);
             conn = (HttpURLConnection) url.openConnection();
@@ -58,7 +58,7 @@ class DefaultRemoteConnectionRetriever implements RemoteConnectionRetriever
 
             if (status >= 400) {
                 logger.error("Fail to getGuacamoleJSONString from OpenHackathon. The response code is :" + status);
-                logger.debug("user may have not login , please do it before your request !!!");
+                logger.info("user may have not login , please do it before your request !!!");
                 return null;
             }
 
