@@ -65,7 +65,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: oph-guacamole-ext
-        path: deploy/guacamole/extensions/openhackathon-gucamole-authentication-2.0.1.jar
+        path: deploy/guacamole/extensions
       
     - name: Build and Push image
       uses: docker/build-push-action@v2
