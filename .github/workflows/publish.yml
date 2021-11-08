@@ -70,8 +70,8 @@ jobs:
     - name: Build and Push image
       uses: docker/build-push-action@v2
       with:
-        context: .
-        file: ./deploy/guacamole/Dockerfile
+        context: ./deploy/guacamole
+        file: ./Dockerfile
         push: true
         tags: ${{ steps.docker_meta.outputs.tags }}
         labels: ${{ steps.docker_meta.outputs.labels }}
