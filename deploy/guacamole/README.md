@@ -23,6 +23,7 @@ To run guacamole with custom extension locally:
 ```
 mvn verify
 cp target/openhackathon-gucamole-authentication-2.0.1.jar deploy/guacamole/extensions/
+cd deploy/guacamole
 docker build -t oph-guacamole .
 docker run --name some-guacamole --link some-guacd:guacd -d -p 8080:8080 oph-guacamole
 ```
@@ -34,7 +35,14 @@ docker run --name some-guacamole --link some-guacd:guacd -e OPEN_HACKATHON_HOSTN
 Also you can specify `GUACAMOLE_HOME` by add  `-e GUACAMOLE_HOME=/opt/openhackathon/guacamole`.
 
 ## Run containers locally with Docker-Compose
-TBD
+To run with docker-compose:
+```
+mvn verify
+cp target/openhackathon-gucamole-authentication-2.0.1.jar deploy/guacamole/extensions/
+cd deploy/guacamole
+docker build -t oph-guacamole .
+docker-compose up -d
+```
 
 ## Deploy containers to Azure Web App
 TBD. [Multi-container App Tutorial](https://docs.microsoft.com/en-us/azure/app-service/tutorial-multi-container-app)

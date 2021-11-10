@@ -1,0 +1,18 @@
+version: '3.0'
+
+services:
+  guacd:
+    image: guacamole/guacd
+    restart: always
+
+  guacamole:
+    depends_on:
+      - guacd
+    image: openhackathon/oph-guacamole:main
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      GUACD_HOSTNAME: guacd
+      OPEN_HACKATHON_HOSTNAME: https://hackathon-api.kaiyuanshe.cn/
+      OPEN_HACKATHON_APP_ID: Development
