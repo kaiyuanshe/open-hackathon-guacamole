@@ -45,4 +45,16 @@ docker-compose up -d
 ```
 
 ## Deploy containers to Azure Web App
-TBD. [Multi-container App Tutorial](https://docs.microsoft.com/en-us/azure/app-service/tutorial-multi-container-app)
+[Multi-container App Tutorial](https://docs.microsoft.com/en-us/azure/app-service/tutorial-multi-container-app)
+
+Install [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=script#install-or-update) if you haven't. 
+
+### Create App Service
+Run:
+```
+az cloud set -n AzureChinaCloud
+az login
+az group create -name <group> --location chinaeast2
+az appservice plan create --name <planName> --resource-group <group> --sku S1 --is-linux
+az webapp create --resource-group <group> --plan <planName> --name <appName> --multicontainer-config-type compose --multicontainer-config-file docker-compose.yml
+```
