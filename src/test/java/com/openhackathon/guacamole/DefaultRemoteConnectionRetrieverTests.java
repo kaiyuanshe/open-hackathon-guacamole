@@ -36,7 +36,7 @@ public class DefaultRemoteConnectionRetrieverTests {
         verify(huc, times(1)).setRequestMethod("GET");
         verify(huc, times(1)).setUseCaches(false);
         verify(huc, times(1)).setRequestProperty("Authorization", "token " + testToken);
-        verify(huc, times(1)).setRequestProperty("x-openhackathon-app", appId);
+        verify(huc, times(1)).setRequestProperty("x-openhackathon-app-id", appId);
         verify(huc, times(1)).connect();
         verify(huc, times(1)).getResponseCode();
     }
