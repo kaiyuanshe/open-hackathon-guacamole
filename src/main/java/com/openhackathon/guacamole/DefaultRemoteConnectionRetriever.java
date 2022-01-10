@@ -50,8 +50,8 @@ class DefaultRemoteConnectionRetriever implements RemoteConnectionRetriever
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setUseCaches(false);
-            conn.setRequestProperty("Authorization", "token " + token);
-            conn.setRequestProperty("x-openhackathon-app", this.appId);
+            conn.setRequestProperty(OpenHackathonConstants.HeaderNameAuthorization, "token " + token);
+            conn.setRequestProperty(OpenHackathonConstants.HeaderNameAppId, this.appId);
             conn.connect();
 
             int status = conn.getResponseCode();
