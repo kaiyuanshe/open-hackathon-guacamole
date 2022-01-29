@@ -16,7 +16,7 @@ public class UrlHelper {
     }
 
     private static final String getBaseUrl() throws GuacamoleException {
-        Environment environment = new LocalEnvironment();
+        Environment environment = LocalEnvironment.getInstance();
         String baseUrl = environment.getProperty(OpenHackathonGuacamoleProperties.OPEN_HACKATHON_HOSTNAME, OpenHackathonConstants.OpenHackathonDefaultEndpoint);
         if(!baseUrl.endsWith("/")) {
             baseUrl = baseUrl + "/";
