@@ -21,7 +21,7 @@ class DefaultRemoteConnectionRetriever implements RemoteConnectionRetriever
 
     public JSONObject getRemoteConnections(UrlWrapper url, String token)
     {
-        logger.info("get remote connections from openhackathon. remoteConnApiUrl:" + url.getUrl() + ", token:" + token);
+        logger.info("get remote connections from openhackathon. remoteConnApiUrl:" + url.getUrl() + ", token:" + token + ", appId:" + this.appId);
         String resp = getGuacamoleJSONString(url, token);
         logger.info("response from open hackathon api:" + resp);
         if(resp == null)
