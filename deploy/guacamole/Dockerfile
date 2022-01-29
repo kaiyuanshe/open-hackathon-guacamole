@@ -6,7 +6,7 @@
 ### Dockerfile for guacamole
 ### based on guacamole official image
 
-FROM guacamole/guacamole
+FROM guacamole/guacamole:1.4.0
 
 USER root
 
