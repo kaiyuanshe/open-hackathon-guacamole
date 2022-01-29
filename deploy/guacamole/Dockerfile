@@ -14,3 +14,5 @@ RUN mkdir -p /opt/openhackathon/guacamole
 ADD . /opt/openhackathon/guacamole/
 
 ENV GUACAMOLE_HOME /opt/openhackathon/guacamole
+
+CMD ["/opt/guacamole/bin/start.sh"]
