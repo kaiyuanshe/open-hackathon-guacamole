@@ -7,17 +7,17 @@ import org.apache.guacamole.properties.StringGuacamoleProperty;
  * tutorial. The properties defined here must be specified within
  * guacamole.properties to configure the tutorial authentication provider.
  */
-public class GuacamoleProperties {
+public class OpenHackathonGuacamoleProperties {
 
     /**
      * This class should not be instantiated.
      */
-    private GuacamoleProperties() {}
+    private OpenHackathonGuacamoleProperties() {}
 
     /**
      * The endpoint of open hackathon api.
      */
-    public static final StringGuacamoleProperty OPEN_HACKATHON_ENDPOINT = new StringGuacamoleProperty() {
+    public static final StringGuacamoleProperty OPEN_HACKATHON_HOSTNAME = new StringGuacamoleProperty() {
         @Override
         public String getName() { 
             return OpenHackathonConstants.OpenHackathonApiEndpointConfigName;
