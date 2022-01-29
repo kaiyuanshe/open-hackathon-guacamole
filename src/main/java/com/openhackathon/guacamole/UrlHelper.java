@@ -3,6 +3,7 @@ package com.openhackathon.guacamole;
 import org.apache.guacamole.GuacamoleException;
 import org.apache.guacamole.environment.Environment;
 import org.apache.guacamole.environment.LocalEnvironment;
+import org.apache.guacamole.token.TokenName;
 import java.net.MalformedURLException;
 
 public class UrlHelper {
@@ -16,8 +17,12 @@ public class UrlHelper {
     }
 
     private static final String getBaseUrl() throws GuacamoleException {
-        Environment environment = LocalEnvironment.getInstance();
-        String baseUrl = environment.getProperty(OpenHackathonGuacamoleProperties.OPEN_HACKATHON_HOSTNAME, OpenHackathonConstants.OpenHackathonDefaultEndpoint);
+        String baseUrl = System.getenv(TokenName.canonicalize(OpenHackathonConstants.OpenHackathonApiEndpointConfigName));
+        if(baseUrl == null){
+            Environment environment = LocalEnvironment.getInstance();
+            baseUrl = environment.getProperty(OpenHackathonGuacamoleProperties.OPEN_HACKATHON_HOSTNAME, OpenHackathonConstants.OpenHackathonDefaultEndpoint);
+        }
+
         if(!baseUrl.endsWith("/")) {
             baseUrl = baseUrl + "/";
         }
