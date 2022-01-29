@@ -21,6 +21,7 @@ public class UrlHelper {
         if(!baseUrl.endsWith("/")) {
             baseUrl = baseUrl + "/";
         }
+        logger.info("Read OPEN_HACKATHON_HOSTNAME: " + baseUrl);
         return baseUrl;
     }
 }
