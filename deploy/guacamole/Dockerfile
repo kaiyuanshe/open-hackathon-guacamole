@@ -10,9 +10,6 @@ FROM guacamole/guacamole
 
 USER root
 
-RUN mkdir -p /opt/openhackathon/guacamole
-ADD . /opt/openhackathon/guacamole/
+RUN mkdir -p /root/.guacamole
+ADD . /root/.guacamole/
 
-ENV GUACAMOLE_HOME /opt/openhackathon/guacamole
-
-CMD ["/opt/guacamole/bin/start.sh"]
