@@ -27,7 +27,9 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
 
     private static final String getOpenHackathonAppId() throws GuacamoleException {
         Environment environment = LocalEnvironment.getInstance();
-        return environment.getProperty(OpenHackathonGuacamoleProperties.OPEN_HACKATHON_APP_ID);
+        String appId = environment.getProperty(OpenHackathonGuacamoleProperties.OPEN_HACKATHON_APP_ID);
+        logger.info("Read OPEN_HACKATHON_APP_ID: " + appId);
+        return appId;
     }
 
     @Override
