@@ -27,6 +27,11 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
     private RemoteConnectionParser parser;
 
     private static final String getOpenHackathonAppId() throws GuacamoleException {
+        String value = System.getenv(TokenName.canonicalize(OpenHackathonConstants.OpenHackathonAppIdConfigName));
+        if(value != null){
+            return value;
+        }
+
         Environment environment = LocalEnvironment.getInstance();
         String appId = environment.getProperty(OpenHackathonGuacamoleProperties.OPEN_HACKATHON_APP_ID);
         return appId;
@@ -74,12 +79,6 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
     }
 
     private synchronized void initializeRetriever() {
-        logger.info("OPEN_HACKATHON_APP_ID:" + System.getenv("OPEN_HACKATHON_APP_ID"));
-        logger.info("OPEN_HACKATHON_HOSTNAME:" + System.getenv("OPEN_HACKATHON_HOSTNAME"));
-        logger.info("open-hackathon-hostname.toUpper:" + TokenName.canonicalize("open-hackathon-hostname"));
-        logger.info("open-hackathon-hostname.env:" + System.getenv(TokenName.canonicalize("open-hackathon-hostname")));
-        logger.info("open-hackathon-app-id.toUpper:" + TokenName.canonicalize("open-hackathon-app-id"));
-        logger.info("open-hackathon-app-id.env:" + System.getenv(TokenName.canonicalize("open-hackathon-app-id")));
         if (this.retriever != null)
             return;
         try {
