@@ -11,6 +11,7 @@ import org.apache.guacamole.net.auth.simple.SimpleAuthenticationProvider;
 import org.apache.guacamole.net.auth.Credentials;
 import org.apache.guacamole.properties.StringGuacamoleProperty;
 import org.apache.guacamole.protocol.GuacamoleConfiguration;
+import org.apache.guacamole.token.TokenName;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +74,12 @@ public class OpenHackathonAuthenticationProvider extends SimpleAuthenticationPro
     }
 
     private synchronized void initializeRetriever() {
+        logger.info("OPEN_HACKATHON_APP_ID:" + System.getenv("OPEN_HACKATHON_APP_ID"));
+        logger.info("OPEN_HACKATHON_HOSTNAME:" + System.getenv("OPEN_HACKATHON_HOSTNAME"));
+        logger.info("open-hackathon-hostname.toUpper:" + TokenName.canonicalize("open-hackathon-hostname"));
+        logger.info("open-hackathon-hostname.env:" + System.getenv(TokenName.canonicalize("open-hackathon-hostname")));
+        logger.info("open-hackathon-app-id.toUpper:" + TokenName.canonicalize("open-hackathon-app-id"));
+        logger.info("open-hackathon-app-id.env:" + System.getenv(TokenName.canonicalize("open-hackathon-app-id")));
         if (this.retriever != null)
             return;
         try {
